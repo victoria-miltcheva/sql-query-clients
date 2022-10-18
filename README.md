@@ -1,40 +1,27 @@
-# sql-query-clients [![Actions Status](https://github.com/IBM-Cloud/sql-query-clients/workflows/Python%20CI/badge.svg)](https://github.com/IBM-Cloud/sql-query-clients/actions) [![Actions Status](https://github.com/IBM-Cloud/sql-query-clients/workflows/Node.js%20CI/badge.svg)](https://github.com/IBM-Cloud/sql-query-clients/actions)
+# ibmcloudsql - Node.js
 
-This repository contains application client samples and blueprint code for the [IBM Cloud Data Engine service](https://cloud.ibm.com/catalog/services/sql-query#about).
+Allows you to run SQL statements in the IBM Cloud on data stored on object storage.
 
+## Example Usage
 
-## List of clients
- * [ibmcloudsql](https://github.com/IBM-Cloud/sql-query-clients/tree/master/Python) Python SDK
- * [Cloud Function](https://github.com/IBM-Cloud/sql-query-clients/tree/master/Python/cloud_function) for Data Engine (uses `ibmcloudsql`)
- * [sqlQuery](https://github.com/IBM-Cloud/sql-query-clients/tree/master/Node) Node SDK **deprecated** (Use this [Data Engine Node SDK]( https://github.com/IBM/sql-query-node-sdk) instead)
- * [Dremio](https://github.com/IBM-Cloud/sql-query-clients/tree/master/Dremio) connector
- * [Grafana](https://github.com/IBM-Cloud/sql-query-clients/tree/master/Grafana) connector
+```
+var apikey = process.env.IBM_API_KEY;
+var crn = process.env.IBM_SQL_CRN;
+var targetCosUrl = process.env.IBM_COS_TARGET_BUCKET_URL;
 
-## Documentation
- * Please refer to [Data Engine Getting Started](https://cloud.ibm.com/docs/services/sql-query?topic=sql-query-getting-started) for general information and turorial for this service.
- * The documentation for [ibmcloudsql Python API](https://ibm-cloud.github.io/sql-query-clients/)
- * How to use `ibmcloudsql` in a [Python Notebook](https://dataplatform.cloud.ibm.com/exchange/public/entry/view/4a9bb1c816fb1e0f31fec5d580e4e14d)
+var sqlQuery = new SqlQuery(apikey, crn, targetCosUrl);
 
-## How to generate docs
+sqlQuery.runSql("select * from cos://us-south/employees/banklist.csv limit 5").then(data => console.log(data));
+```
 
-Requirement: conda
-
-* In the docs folder, you run [if you don’t have sphinx and required package yet]
-
-`make setup`
-
-This create `sphinx` environment. Make sure you're in this environment each time you run the below commands
-
-* Get docstring updated
-
-`make python`
-
-* generate docs in local file (in /tmp/sql-query-clients-docs/html - for the purpose of local check the output)
-
-`make html`
-
-Check the output by opening the browser with the URL: `file:///tmp/sql-query-clients-docs/html/index.html`
-
-* (check the local content carefully before running this) generate and commit to the server [only those with proper  priviledges]
-
-`make buildandcommithtml`
+## SQLQuery function list
+ * `SqlQuery(api_key, instance_crn, target_cos_url)` Constructor
+ * `logon()` Needs to be called before any other method below. Logon is valid for one hour.
+ * `submitSql(sql_text)` returns `jobId`as string
+ * `waitForJob(jobId)` Waits for job to end and returns job completion state (either `completed` or `failed`)
+ * `getResult(jobId)` returns SQL result data frame
+ * `deleteResult(jobId)` deletes all result set objects in cloud object storage for the given jobId
+ * `getJob(jobId)` returns details for the given SQL job as a JSON object
+ * `getJobs()` returns the list of recent 30 submitted SQL jobs with all details as a data frame
+ * `runSql(sql_text)` Compound method that calls `submitSql`, `waitForJob` and `getResult` in sequence
+ * `sqlUILink()` Returns browser link for SQL Query web console for currently configured instance
