@@ -2,7 +2,7 @@
 
 _Note: to fix the deprecated `ibmcloudsql` Node SDK package, I've forked this repo since the fix that is in Git will not be published in an official release._
 
-_This fixed packaged can be installed with:_
+_This package can be installed with:_
 
 ```bash
 npm i git+ssh://git@github.com/victoria-miltcheva/sql-query-clients#master
