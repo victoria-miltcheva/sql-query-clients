@@ -8,7 +8,7 @@ _This fixed packaged can be installed with:_
 npm i git+ssh://git@github.com/victoria-miltcheva/sql-query-clients#master
 ```
 
-_I will archive this fork once fully migrated to the non-deprecated @ibm-cloud/ibm-sql-query-sdk package._
+_I will archive this fork once fully migrated to the supported package, `@ibm-cloud/ibm-sql-query-sdk`._
 
 Allows you to run SQL statements in the IBM Cloud on data stored on object storage.
 
