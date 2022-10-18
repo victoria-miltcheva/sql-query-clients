@@ -1,6 +1,14 @@
 # ibmcloudsql - Node.js
 
-_Note: to fix the deprecated `ibmcloudsql` Node SDK package, I've forked this repo since the fix that is in Git will not be published in an official release. This fixed packaged can be installed with `npm i git+ssh://git@github.com/victoria-miltcheva/sql-query-clients#master`. I will archive this fork once fully migrated to the non-deprecated @ibm-cloud/ibm-sql-query-sdk package._
+_Note: to fix the deprecated `ibmcloudsql` Node SDK package, I've forked this repo since the fix that is in Git will not be published in an official release._
+
+_This fixed packaged can be installed with:_
+
+```bash
+npm i git+ssh://git@github.com/victoria-miltcheva/sql-query-clients#master
+```
+
+_I will archive this fork once fully migrated to the non-deprecated @ibm-cloud/ibm-sql-query-sdk package._
 
 Allows you to run SQL statements in the IBM Cloud on data stored on object storage.
 
